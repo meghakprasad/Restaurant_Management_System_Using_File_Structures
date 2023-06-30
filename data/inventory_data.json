@@ -1,0 +1,26 @@
+{
+    "1": {
+        "name": "Rice",
+        "quantity": 27
+    },
+    "2": {
+        "name": "Rava",
+        "quantity": "40"
+    },
+    "3": {
+        "name": "Tomato",
+        "quantity": "40"
+    },
+    "4": {
+        "name": "Cheese",
+        "quantity": "10"
+    },
+    "5": {
+        "name": "Butter",
+        "quantity": "20"
+    },
+    "6": {
+        "name": "Oil",
+        "quantity": "40"
+    }
+}
