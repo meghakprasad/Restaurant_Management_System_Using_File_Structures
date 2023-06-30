@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+        }
+        
+        .table-section {
+            margin-bottom: 40px;
+        }
+        
+        .table-section h2 {
+            margin-bottom: 10px;
+        }
+        
+        #menu {
+            margin-bottom: 20px;
+        }
+        
+        #menu ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        #menu li {
+            display: inline;
+            margin-right: 10px;
+        }
+        
+        #menu a {
+            text-decoration: none;
+            padding: 5px;
+            border: 1px solid #ccc;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        
+        #menu a:hover {
+            background-color: #ccc;
+        }
+        
+        .orders {
+            margin-bottom: 20px;
+        }
+        
+        .orders table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .orders th,
+        .orders td {
+            padding: 8px;
+            border: 1px solid #ccc;
+        }
+        
+        .orders th {
+            background-color: #f0f0f0;
+            text-align: left;
+        }
+        
+        .total {
+            text-align: right;
+            font-weight: bold;
+        }
+        
+        .message {
+            color: red;
+            font-weight: bold;
+        }
+        
+        .qr-code {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Order Management</h1>
+    
+    <div class="table-section">
+        <h2>Table 1</h2>
+        
+        <div id="menu">
+            <ul>
+                <li><a href="#" onclick="selectItem(1, 'Burger', 10.99, 1)">Burger</a></li>
+                <li><a href="#" onclick="selectItem(2, 'Pizza', 12.99, 1)">Pizza</a></li>
+                <li><a href="#" onclick="selectItem(3, 'Salad', 8.99, 1)">Salad</a></li>
+                <li><a href="#" onclick="selectItem(4, 'Fries', 4.99, 1)">Fries</a></li>
+                <li><a href="#" onclick="generateBill(1)">Generate Bill</a></li>
+            </ul>
+        </div>
+        
+        <div class="orders">
+            <table id="order-table-1">
+                <tr>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="total" id="total-1"></div>
+        
+        <div class="message" id="message-1"></div>
+        
+        <div class="qr-code" id="qr-code-1"></div>
+    </div>
+    
+    <div class="table-section">
+        <h2>Table 2</h2>
+        
+        <div id="menu">
+            <ul>
+                <li><a href="#" onclick="selectItem(1, 'Burger', 10.99, 1)">Burger</a></li>
+                <li><a href="#" onclick="selectItem(2, 'Pizza', 12.99, 1)">Pizza</a></li>
+                <li><a href="#" onclick="selectItem(3, 'Salad', 8.99, 1)">Salad</a></li>
+                <li><a href="#" onclick="selectItem(4, 'Fries', 4.99, 1)">Fries</a></li>
+                <li><a href="#" onclick="generateBill(1)">Generate Bill</a></li>
+            </ul>
+        </div>
+        
+        <div class="orders">
+            <table id="order-table-1">
+                <tr>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="total" id="total-1"></div>
+        
+        <div class="message" id="message-1"></div>
+        
+        <div class="qr-code" id="qr-code-1"></div>
+    </div>
+    <div class="table-section">
+        <h2>Table 3</h2>
+        
+        <div id="menu">
+            <ul>
+                <li><a href="#" onclick="selectItem(1, 'Burger', 10.99, 1)">Burger</a></li>
+                <li><a href="#" onclick="selectItem(2, 'Pizza', 12.99, 1)">Pizza</a></li>
+                <li><a href="#" onclick="selectItem(3, 'Salad', 8.99, 1)">Salad</a></li>
+                <li><a href="#" onclick="selectItem(4, 'Fries', 4.99, 1)">Fries</a></li>
+                <li><a href="#" onclick="generateBill(1)">Generate Bill</a></li>
+            </ul>
+        </div>
+        
+        <div class="orders">
+            <table id="order-table-1">
+                <tr>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="total" id="total-1"></div>
+        
+        <div class="message" id="message-1"></div>
+        
+        <div class="qr-code" id="qr-code-1"></div>
+    </div>
+
+    <div class="table-section">
+        <h2>Table 4</h2>
+        
+        <div id="menu">
+            <ul>
+                <li><a href="#" onclick="selectItem(1, 'Burger', 10.99, 1)">Burger</a></li>
+                <li><a href="#" onclick="selectItem(2, 'Pizza', 12.99, 1)">Pizza</a></li>
+                <li><a href="#" onclick="selectItem(3, 'Salad', 8.99, 1)">Salad</a></li>
+                <li><a href="#" onclick="selectItem(4, 'Fries', 4.99, 1)">Fries</a></li>
+                <li><a href="#" onclick="generateBill(1)">Generate Bill</a></li>
+            </ul>
+        </div>
+        
+        <div class="orders">
+            <table id="order-table-1">
+                <tr>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="total" id="total-1"></div>
+        
+        <div class="message" id="message-1"></div>
+        
+        <div class="qr-code" id="qr-code-1"></div>
+    </div>
+
+    <div class="table-section">
+        <h2>Table 5</h2>
+        
+        <div id="menu">
+            <ul>
+                <li><a href="#" onclick="selectItem(1, 'Burger', 10.99, 1)">Burger</a></li>
+                <li><a href="#" onclick="selectItem(2, 'Pizza', 12.99, 1)">Pizza</a></li>
+                <li><a href="#" onclick="selectItem(3, 'Salad', 8.99, 1)">Salad</a></li>
+                <li><a href="#" onclick="selectItem(4, 'Fries', 4.99, 1)">Fries</a></li>
+                <li><a href="#" onclick="generateBill(1)">Generate Bill</a></li>
+            </ul>
+        </div>
+        
+        <div class="orders">
+            <table id="order-table-1">
+                <tr>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="total" id="total-1"></div>
+        
+        <div class="message" id="message-1"></div>
+        
+        <div class="qr-code" id="qr-code-1"></div>
+    </div>
+
+    <div class="table-section">
+        <h2>Table 6</h2>
+        
+        <div id="menu">
+            <ul>
+                <li><a href="#" onclick="selectItem(1, 'Burger', 10.99, 1)">Burger</a></li>
+                <li><a href="#" onclick="selectItem(2, 'Pizza', 12.99, 1)">Pizza</a></li>
+                <li><a href="#" onclick="selectItem(3, 'Salad', 8.99, 1)">Salad</a></li>
+                <li><a href="#" onclick="selectItem(4, 'Fries', 4.99, 1)">Fries</a></li>
+                <li><a href="#" onclick="generateBill(1)">Generate Bill</a></li>
+            </ul>
+        </div>
+        
+        <div class="orders">
+            <table id="order-table-1">
+                <tr>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="total" id="total-1"></div>
+        
+        <div class="message" id="message-1"></div>
+        
+        <div class="qr-code" id="qr-code-1"></div>
+    </div>
+    
+    <script>
+        var menu = {
+            1: { name: "Burger", price: 10.99 },
+            2: { name: "Pizza", price: 12.99 },
+            3: { name: "Salad", price: 8.99 },
+            4: { name: "Fries", price: 4.99 }
+        };
+        
+        var orders = {};
+        
+        function selectItem(itemID, itemName, itemPrice, tableNumber) {
+            var quantity = prompt("Enter quantity:");
+            
+            if (quantity !== null && quantity !== "") {
+                var order = {
+                    itemID: itemID,
+                    itemName: itemName,
+                    quantity: parseInt(quantity),
+                    price: itemPrice
+                };
+                
+                if (!orders[tableNumber]) {
+                    orders[tableNumber] = [];
+                }
+                
+                orders[tableNumber].push(order);
+                updateOrderTable(tableNumber);
+            }
+        }
+        
+        function removeOrder(index, tableNumber) {
+            orders[tableNumber].splice(index, 1);
+            updateOrderTable(tableNumber);
+        }
+        
+        function updateOrderTable(tableNumber) {
+            var orderTable = document.getElementById("order-table-" + tableNumber);
+            orderTable.innerHTML = `
+                <tr>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>`;
+            
+            var total = 0;
+            
+            for (var i = 0; i < orders[tableNumber].length; i++) {
+                var order = orders[tableNumber][i];
+                var itemTotal = order.quantity * order.price;
+                
+                orderTable.innerHTML += `
+                    <tr>
+                        <td>${order.itemName}</td>
+                        <td>${order.quantity}</td>
+                        <td>${itemTotal.toFixed(2)}</td>
+                        <td><a href="#" onclick="removeOrder(${i}, ${tableNumber})">Remove</a></td>
+                    </tr>`;
+                
+                total += itemTotal;
+            }
+            
+            var totalElement = document.getElementById("total-" + tableNumber);
+            totalElement.innerHTML = `Total: $${total.toFixed(2)}`;
+        }
+        
+        function generateBill(tableNumber) {
+            if (!orders[tableNumber] || orders[tableNumber].length === 0) {
+                var messageElement = document.getElementById("message-" + tableNumber);
+                messageElement.textContent = "No orders placed!";
+                return;
+            }
+            
+            var total = 0;
+            
+            for (var i = 0; i < orders[tableNumber].length; i++) {
+                var order = orders[tableNumber][i];
+                total += order.quantity * order.price;
+            }
+            
+            var qrCodeElement = document.getElementById("qr-code-" + tableNumber);
+            qrCodeElement.innerHTML = "";
+            
+            var qrCodeImg = document.createElement("img");
+            qrCodeImg.src = "https://api.qrserver.com/v1/create-qr-code/?data=" + encodeURIComponent("Total Bill for Table " + tableNumber + ": $" + total.toFixed(2));
+            qrCodeImg.alt = "QR Code";
+            qrCodeElement.appendChild(qrCodeImg);
+        }
+    </script>
+</body>
+</html>
