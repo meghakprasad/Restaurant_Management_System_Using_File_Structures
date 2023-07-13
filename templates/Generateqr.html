@@ -1,0 +1,22 @@
+function generateBill(tableNumber) {
+    if (!orders[tableNumber] || orders[tableNumber].length === 0) {
+        var messageElement = document.getElementById("message-" + tableNumber);
+        messageElement.textContent = "No orders placed!";
+        return;
+    }
+    
+    var total = 0;
+    
+    for (var i = 0; i < orders[tableNumber].length; i++) {
+        var order = orders[tableNumber][i];
+        total += order.quantity * order.price;
+    }
+    
+    var qrCodeElement = document.getElementById("qr-code-" + tableNumber);
+    qrCodeElement.innerHTML = "";
+    
+    var qrCodeImg = document.createElement("img");
+    qrCodeImg.src = "https://api.qrserver.com/v1/create-qr-code/?data=" + encodeURIComponent("Total Bill for Table " + tableNumber + ": $" + total.toFixed(2));
+    qrCodeImg.alt = "QR Code";
+    qrCodeElement.appendChild(qrCodeImg);
+}
