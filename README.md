@@ -10,3 +10,5 @@ This system helps in achieving the following objectives:
 •	To ensure effective restaurant operations.
 •	Provide operations like menu planning, table management and inventory tracking.
 •	Provide easy billing process.
+
+NOTE: To run the project download python and flask.
