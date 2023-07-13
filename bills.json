@@ -1,0 +1,20 @@
+[
+    {
+        "table_number": "Table 6",
+        "total_amount": "460.00",
+        "bill_number": "I6FQGJU",
+        "payment_status": "Received"
+    },
+    {
+        "table_number": "Table 2",
+        "total_amount": "430.00",
+        "bill_number": "Z3NY8ZT",
+        "payment_status": "Received"
+    },
+    {
+        "table_number": "Table 2",
+        "total_amount": "280.00",
+        "bill_number": "Y0QAXKE",
+        "payment_status": "Received"
+    }
+]
