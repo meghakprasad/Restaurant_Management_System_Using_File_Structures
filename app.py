@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, jsonify, session, u
 from bplustree import BPlusTree
 import json
 import os
-import secrets,random
+import secrets,random,string
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)   # Set a secret key for session management
@@ -10,10 +10,13 @@ app.secret_key = secrets.token_hex(16)   # Set a secret key for session manageme
 data_directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
 
 db_file = os.path.join(data_directory, 'employee_data.json')
+manager_file = os.path.join(data_directory, 'manager_data.json')
 inventory_file = os.path.join(data_directory, 'inventory_data.json')
 reservation_file = os.path.join(data_directory, 'reservation_data.json')
 contact_file = os.path.join(data_directory, 'contact_data.json')
+order_file = os.path.join(data_directory, 'order_data.json')
 
+order_data = {}  
 inventory_data = {}
 reservation_data = {}
 contact_data = {}
@@ -21,7 +24,7 @@ contact_data = {}
 
 @app.route('/inventory', methods=['GET', 'POST'])
 def inventory():
-    if 'employee_id' in session:
+    if 'id' in session:
         if request.method == 'POST':
             product_name = request.json['name']
             product_quantity = request.json['quantity']
@@ -46,7 +49,7 @@ def inventory():
 
 @app.route('/inventory_data', methods=['GET'])
 def get_inventory_data():
-    if 'employee_id' in session:
+    if 'id' in session:
         return json.dumps(inventory_data)
     else:
         return redirect(url_for('dashboard'))
@@ -68,7 +71,7 @@ def save_inventory_data():
 
 @app.route('/decrease_quantity', methods=['POST'])
 def decrease_quantity():
-    if 'employee_id' in session:
+    if 'id' in session:
         product_id = request.form['product_id']
         if product_id in inventory_data:
             product = inventory_data[product_id]
@@ -90,7 +93,7 @@ def decrease_quantity():
 
 @app.route('/increase_quantity', methods=['POST'])
 def increase_quantity():
-    if 'employee_id' in session:
+    if 'id' in session:
         product_id = request.form['product_id']
         if product_id in inventory_data:
             product = inventory_data[product_id]
@@ -115,7 +118,6 @@ def create_reservation():
     email = request.form.get('email')
     datetime_str = request.form.get('Datetime')
     select1 = request.form.get('select1')
-    message = request.form.get('message')
 
     # Convert the selected datetime string to a datetime object
     selected_datetime = datetime.fromisoformat(datetime_str.replace('T', ' '))
@@ -160,7 +162,6 @@ def create_reservation():
         'email': email,
         'datetime': datetime_str,
         'select1': select1,
-        'message': message,
         'table_number': table_number
     }
 
@@ -174,7 +175,12 @@ def create_reservation():
     save_reservation_data()
 
     # Redirect to the reservation success page
-    return redirect('/reservation_success')
+    return '''
+                    <script>
+                        alert("Reservation success");
+                        window.history.back();
+                    </script>
+                    '''
 
 def generate_reservation_id():
     # Implement your logic to generate a unique reservation ID
@@ -197,9 +203,6 @@ def save_reservation_data():
         json.dump(reservation_data, f,indent=4)
 
 
-@app.route('/reservation_success')
-def reservation_success():
-    return render_template('payment_form.html', reservations=reservation_data)
 
 @app.route('/cancel_reservation', methods=['POST'])
 def cancel_reservation():
@@ -230,14 +233,14 @@ def get_latest_reservation_id():
 
 @app.route('/view_reservation')
 def view_reservations():
-    if 'employee_id' in session:
+    if 'employee_id' in session or 'id' in session:
         return render_template('reservation.html', reservations=reservation_data)
     else:
         return redirect(url_for('dashboard'))
 
 @app.route('/delete_reservation', methods=['POST'])
 def delete_reservation():
-    if 'employee_id' in session:
+    if 'id' in session:
         reservation_id = request.form['reservation_id']
         if reservation_id in reservation_data:
             del reservation_data[reservation_id]
@@ -253,7 +256,7 @@ def delete_reservation():
 
 @app.route('/')
 def home():
-    if 'employee_id' in session:
+    if 'employee_id' in session or 'id' in session:
         return redirect(url_for('dashboard'))
     else:
         return render_template('index.html')
@@ -289,7 +292,7 @@ def employee():
 
 @app.route('/delete_employee', methods=['POST'])
 def delete_employee():
-    if 'employee_id' in session:
+    if 'id' in session:
         employee_id = request.form['employee_id']
         if os.path.exists(db_file):
             with open(db_file, 'r') as f:
@@ -318,10 +321,13 @@ def save_employee_data(tree):
 def order():
     return render_template('order.html')
 
-
 @app.route('/menu')
 def menu():
     return render_template('menu.html')
+
+@app.route('/payment_form')
+def payment():
+    return render_template('payment_form.html')
 
 
 @app.route('/signup')
@@ -393,7 +399,41 @@ def login():
             return 'No registered employees found'
     except Exception as e:
         return f'An error occurred: {str(e)}'
+    
+@app.route('/manlogin')
+def msignin():
+    return render_template('mlogin.html')
+@app.route('/mlogin', methods=['POST'])
+def mlogin():
+    try:
+        id = request.form['id']
+        password = request.form['password']
 
+        if os.path.exists(manager_file):
+            with open(manager_file, 'r') as f:
+                tree = json.load(f)
+
+            if id in tree and tree[id]['password'] == password:
+                session['id'] = id  # Store employee ID in session
+                return redirect(url_for('mdashboard'))
+            else:
+                return 'Invalid ID or password'
+        else:
+            return 'No registered manager found'
+    except Exception as e:
+        return f'An error occurred: {str(e)}'
+
+@app.route('/mdashboard')
+def mdashboard():
+    if 'id' in session:
+        if os.path.exists(manager_file):
+            with open(manager_file, 'r') as f:
+                tree = json.load(f)
+        else:
+            tree = {}
+        return render_template('mdash.html', data=tree)
+    else:
+        return redirect(url_for('manlogin'))
 
 @app.route('/signout')
 def signout():
@@ -405,6 +445,14 @@ def logout():
     session.pop('employee_id', None)  # Remove employee ID from session
     return render_template('login.html')
 
+@app.route('/msignout')
+def esignout():
+    return render_template('mlogout.html')
+
+@app.route('/mlogout', methods=['POST'])
+def manlogout():
+    session.pop('id', None)
+    return render_template('mlogin.html')
 
 @app.route('/payment', methods=['GET', 'POST'])
 def payment_form():
@@ -428,6 +476,15 @@ def payment_success():
 def cancel_payment():
     # Handle cancellation logic here
     return redirect('/')
+
+@app.route('/billing')
+def billing():
+        # Load data from the bills.json file
+    with open('bills.json', 'r') as file:
+        bills_data = json.load(file)
+
+    # Pass the data to the template for rendering
+    return render_template('billing.html', bills=bills_data)
 
 @app.route('/send_message', methods=['POST'])
 def send_message():
@@ -467,6 +524,80 @@ def load_contact_data():
 def save_contact_data():
     with open(contact_file, 'w') as f:
         json.dump(contact_data, f,indent=4)
+
+@app.route('/generate-bill', methods=['POST'])
+def generate_bill():
+    data = request.json
+
+    # Generate a random bill number
+    bill_number = ''.join(random.choices(string.ascii_uppercase + string.digits, k=7))
+
+    # Extract the table number and total amount from the data
+    table_number = data['table_number']
+    total_amount = data['total_amount']
+
+    # Add the bill number to the data
+    data['bill_number'] = bill_number
+
+    # Add the payment status as "not received" to the data
+    data['payment_status'] = 'Not Received'
+
+    # Create the bills.json file if it doesn't exist
+    if not os.path.exists('bills.json'):
+        open('bills.json', 'w').close()
+
+    # Load existing data from the file
+    existing_data = []
+    if os.path.getsize('bills.json') > 0:
+        try:
+            with open('bills.json', 'r') as file:
+                existing_data = json.load(file)
+        except json.JSONDecodeError:
+            # Invalid JSON data, treat it as an empty list
+            existing_data = []
+
+    # Append the new data to the existing data
+    existing_data.append(data)
+
+    # Save the updated data to the JSON file
+    with open('bills.json', 'w') as file:
+        json.dump(existing_data, file, indent=4)
+
+    return jsonify({'message': 'Bill generated successfully', 'bill_number': bill_number})
+
+@app.route('/display-bills')
+def display_bills():
+    # Load data from the bills.json file
+    with open('bills.json', 'r') as file:
+        bills_data = json.load(file)
+
+    # Pass the data to the template for rendering
+    return render_template('bills.html', bills=bills_data)
+
+@app.route('/mark-as-paid', methods=['POST'])
+def mark_as_paid():
+    bill_number = request.form.get('bill_number')
+
+    # Load data from the bills.json file
+    with open('bills.json', 'r') as file:
+        bills_data = json.load(file)
+
+    # Find the bill with the given bill number and update its payment status
+    for bill in bills_data:
+        if bill['bill_number'] == bill_number:
+            bill['payment_status'] = 'Received'
+            break
+
+    # Save the updated data to the JSON file
+    with open('bills.json', 'w') as file:
+        json.dump(bills_data, file, indent=4)
+
+    return '''
+                    <script>
+                        alert("Payment marked as received");
+                        window.history.back();
+                    </script>
+                    '''
 
 if __name__ == '__main__':
     load_inventory_data()
