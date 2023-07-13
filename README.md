@@ -11,4 +11,4 @@ This system helps in achieving the following objectives:
 •	Provide operations like menu planning, table management and inventory tracking.
 •	Provide easy billing process.
 
-NOTE: To run the project download python and flask.
+NOTE: To run the project download python and flask. Refer the report for other details
