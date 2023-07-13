@@ -1,0 +1,41 @@
+{
+    "Table 1": [
+        {
+            "table_number": "Table 1",
+            "item": "Dal Makhani (\u20b9180)",
+            "price": 180,
+            "quantity": 1,
+            "total_price": 180
+        },
+        {
+            "table_number": "Table 1",
+            "item": "Butter Chicken(\u20b9250)",
+            "price": 250,
+            "quantity": 1,
+            "total_price": 250
+        },
+        {
+            "table_number": "Table 1",
+            "item": "Classic Breakfast",
+            "price": 150,
+            "quantity": 1,
+            "total_price": 150
+        }
+    ],
+    "Table 2": [
+        {
+            "table_number": "Table 2",
+            "item": "Pancakes or Waffles (\u20b9200)",
+            "price": 200,
+            "quantity": 1,
+            "total_price": 200
+        },
+        {
+            "table_number": "Table 2",
+            "item": "Dal Makhani (\u20b9180)",
+            "price": 180,
+            "quantity": 1,
+            "total_price": 180
+        }
+    ]
+}
